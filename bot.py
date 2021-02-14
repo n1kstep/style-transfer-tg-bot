@@ -23,8 +23,6 @@ def photo(message):
     print('\n\n')
     downloaded_file = bot.download_file(file_info.file_path)
     global im_num
-    # with open("image.jpg" if im_num == 0 else "picasso.jpg", 'wb') as new_file:
-    #     new_file.write(downloaded_file)
     if im_num == 0:
         global content_img
         content_img = style_transfer.image_loader(downloaded_file)
@@ -37,17 +35,16 @@ def photo(message):
         style_img = style_transfer.image_loader(downloaded_file)
         bot.send_message(message.chat.id, 'Фото принято (Style)\n'
                                           'Отправь команду /photo, чтобы получить результат\n'
-                                          'Внимание! Обработка фото может занять некоторое время (~15 мин).')
+                                          'Внимание! Обработка фото может занять некоторое время (до 15 мин).')
         im_num = 0
 
 
 @bot.message_handler(commands=['photo'])
 def send_photo(message):
     bot.send_chat_action(message.chat.id, 'upload_photo')
-    image = style_transfer.get_img(content_img, style_img)
-    # img = open('output.jpg', 'rb')
-    bot.send_photo(message.chat.id, image, reply_to_message_id=message.message_id)
-    # img.close()
+    image_st = style_transfer.StyleTransfer(content_img, style_img)
+    output = image_st.predict()
+    bot.send_photo(message.chat.id, output, reply_to_message_id=message.message_id)
 
 
 bot.polling()
