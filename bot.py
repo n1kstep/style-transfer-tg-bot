@@ -1,7 +1,7 @@
 import telebot
 import style_transfer
 
-bot = telebot.TeleBot("1584217211:AAGzlG8MK1a5hLJhPz0POg1vuFItL5uZfeo")
+bot = telebot.TeleBot("")
 im_num = 0
 content_img = 0
 style_img = 0
